@@ -1,28 +1,66 @@
-# !/bin/bash
+#!/usr/bin/env bash
+set -e
 
-# clone the numpy repository and initialize submodules
-git clone git@github.com:uddaloksarkar/numpy.git
-cd numpy
-git submodule update --init --recursive
+USE_SPIN=false
 
-# install testing dependencies
-python3.12 -m pip install pytest
-python3.12 -m pip install hypothesis
+# parse arguments
+for arg in "$@"; do
+    case $arg in
+        --spin)
+            USE_SPIN=true
+            shift
+            ;;
+    esac
+done
 
-if [ "$1" = "spin" ]; then
-    # build numpy using spin and run tests
-    python3.12 -m pip install spin
-    spin build --clean -- -Dbuildtype=debug -Ddisable-optimization=true
-    spin test -v
-    spin test numpy/random  # to run the tests in a specific module
-    spin test -v -t numpy/_core/tests/test_nditer.py::test_iter_c_order
-    spin test -p auto # to run tests in parallel threads using pytest-run-parallel
+echo "Checking for Python 3.12..."
+
+if command -v python3.12 >/dev/null 2>&1; then
+    PYTHON=python3.12
 else
-    # without using spin, build and install numpy in the venv using pip
-    python3.12 -m pip install meson meson-python ninja cython pytest setuptools
-    CFLAGS="-O0 -g" python3.12 -m pip install -e . --no-build-isolation
+    echo "Python 3.12 not found. Attempting to load module..."
+    
+    if command -v module >/dev/null 2>&1; then
+        module load python/3.12.14 || true
+    fi
+
+    if command -v python3.12 >/dev/null 2>&1; then
+        PYTHON=python3.12
+    else
+        echo "Error: Python 3.12 is required but was not found."
+        exit 1
+    fi
 fi
 
+echo "Using $PYTHON"
+
+# create virtual environment if it does not exist
+if [ ! -d "numpy-debug312" ]; then
+    echo "Creating virtual environment..."
+    $PYTHON -m venv numpy-debug312
+fi
+
+echo "Activating virtual environment..."
+source numpy-debug312/bin/activate
+
+echo "Upgrading pip..."
+pip install --upgrade pip
+
+echo "Installing dependencies..."
+pip install meson meson-python ninja cython pytest setuptools hypothesis matplotlib
+
+if [ "$USE_SPIN" = true ]; then
+    echo "Installing spin..."
+    pip install spin
+
+    echo "Building NumPy using spin (debug build)..."
+    spin build --clean -- -Dbuildtype=debug -Ddisable-optimization=true
+else
+    echo "Building NumPy without spin..."
+    CFLAGS="-O0 -g" pip install -e . --no-build-isolation
+fi
+
+echo "Setup complete."
 # # TO run lldb we need to copy the interpreter to the current venv directory
 # cp /Library/Frameworks/Python.framework/Versions/3.12/bin/python3.12 numpy-debug312/bin/python3.12
 
