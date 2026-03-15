@@ -21,7 +21,7 @@ else
     echo "Python 3.12 not found. Attempting to load module..."
     
     if command -v module >/dev/null 2>&1; then
-        module load python/3.12.14 || true
+        module load python/3.12 || true
     fi
 
     if command -v python3.12 >/dev/null 2>&1; then
