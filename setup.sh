@@ -49,6 +49,19 @@ pip install --upgrade pip
 echo "Installing dependencies..."
 pip install meson meson-python ninja cython pytest setuptools hypothesis matplotlib
 
+# clone numpy if it does not exist
+if [ ! -d "numpy" ]; then
+    echo "Cloning NumPy repository..."
+    git clone git@github.com:uddaloksarkar/numpy.git
+    cd numpy
+    git submodule update --init --recursive
+else
+    echo "NumPy repository already exists. Skipping clone."
+    cd numpy
+    git pull
+    git submodule update --init --recursive
+fi
+
 if [ "$USE_SPIN" = true ]; then
     echo "Installing spin..."
     pip install spin
