@@ -3,19 +3,18 @@
 This guide explains how to clone NumPy, build it with debug symbols, run tests, and debug the C code using `gdb`.
 
 ## 1. Setup
-#### Create a Python Virtual Environment
 
-Using `spin`:
+Run the following bash file to build the debug environment.
+```bash
+./setup.sh
+```
+
+You can also use `spin` to build the environment as mentioned in the [official website](https://numpy.org/doc/stable/building/index.html). I prefer the *vanilla* approach.
 
 ```bash
 ./setup.sh --spin
 ```
 
-Without `spin` (**recommended**):
-
-```bash
-./setup.sh
-```
 
 If the arguments are provided correctly, the script will automatically:
 
@@ -26,7 +25,7 @@ If the arguments are provided correctly, the script will automatically:
 
 After the script finishes successfully, the environment will be ready for building, running tests, and debugging.
  
- 
+
 ## 2. Debugging with GDB
 
 #### Start Virtual Enviroment and GDB with Python
@@ -60,3 +59,4 @@ For example, if you are debugging the `legacy_random_binomial_original` you migh
 
 * NumPy must be compiled with debug flags (`-O0 -g`) for effective debugging (look inside `setup.sh`)
 * Breakpoints can be set directly in NumPy C functions once the shared libraries are loaded.
+* When probing into the `random` module keep it in mind that the actual distributions used are in the **legacy directory**. Fit breakpoints accordingly in `numpy/numpy/lib/random/src/legacy/legacy-distributions.c`.
