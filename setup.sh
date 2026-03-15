@@ -74,6 +74,8 @@ else
 fi
 
 echo "Setup complete."
+
+
 # # TO run lldb we need to copy the interpreter to the current venv directory
 # cp /Library/Frameworks/Python.framework/Versions/3.12/bin/python3.12 numpy-debug312/bin/python3.12
 

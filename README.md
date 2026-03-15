@@ -5,21 +5,6 @@ This guide explains how to clone NumPy, build it with debug symbols, run tests, 
 ## 1. Setup
 #### Create a Python Virtual Environment
 
-If Python 3.12 is not already available in your environment, load it first:
-
-```bash
-module load python/3.12.14
-```
-
-Create and activate a virtual environment:
-
-```bash
-python3.12 -m venv numpy-debug312
-source numpy-debug312/bin/activate
-```
-
-#### Set Up the Debug Environment
-
 Using `spin`:
 
 ```bash
@@ -41,18 +26,13 @@ If the arguments are provided correctly, the script will automatically:
 
 After the script finishes successfully, the environment will be ready for building, running tests, and debugging.
  
-
-#### Install Additional Packages (if Required)
-
-```bash
-python3.12 -m pip install matplotlib
-```
-
+ 
 ## 2. Debugging with GDB
 
-#### Start GDB with Python
+#### Start Virtual Enviroment and GDB with Python
 
 ```bash
+source numpy-debug312/bin/activate
 gdb python3.12
 ```
 
