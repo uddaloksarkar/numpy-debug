@@ -32,7 +32,7 @@ After the script finishes successfully, the environment will be ready for buildi
 
 ```bash
 source numpy-debug312/bin/activate
-gdb python3.12
+gdb python3.14
 ```
 
 #### Stop when shared libraries are loaded
@@ -52,6 +52,22 @@ For example, if you are debugging the `legacy_random_binomial_original` you migh
 (gdb) run check_rnd.py
 (gdb) continue
 ```
+
+## 3. Debugging with LLDB
+
+You can follow the exact similar procedure as above to load the environment. The `lldb` commands are highlighted.
+
+```bash
+source numpy-debug312/bin/activate
+lldb -- python3.14
+```
+
+```lldb
+(lldb) breakpoint set --name legacy_random_binomial_original
+(lldb) run check_rnd.py
+(lldb) continue
+```
+
 
 ---
 
