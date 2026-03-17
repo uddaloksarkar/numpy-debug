@@ -18,6 +18,8 @@ p = float(sys.argv[2]) if len(sys.argv) > 2 else 57
 n = 2**n
 p = 2**(-p)
 
-x = np.random.binomial(n, p, size=40)
 print("np :", n * p)
-print("result:", x)
+x = np.random.binomial(n, p, size=40)
+print("binomial:", x)
+x = np.random.poisson(n * p, size=40)
+print("poisson:", x)

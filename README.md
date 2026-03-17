@@ -28,11 +28,11 @@ After the script finishes successfully, the environment will be ready for buildi
 
 ## 2. Debugging with GDB
 
-#### Start Virtual Enviroment and GDB with Python
+#### Start Virtual Enviroment and GDB with Python3.12
 
 ```bash
 source numpy-debug312/bin/activate
-gdb python3.14
+gdb python3.12
 ```
 
 #### Stop when shared libraries are loaded
@@ -53,12 +53,12 @@ For example, if you are debugging the `legacy_random_binomial_original` you migh
 (gdb) continue
 ```
 
-## 3. Debugging with LLDB
+## 3. Debugging with LLDB in Python3.14
 
 You can follow the exact similar procedure as above to load the environment. The `lldb` commands are highlighted.
 
 ```bash
-source numpy-debug312/bin/activate
+source numpy-debug314/bin/activate
 lldb -- python3.14
 ```
 
