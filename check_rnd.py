@@ -13,7 +13,7 @@ def do_nothing(*args):
 # os.kill(os.getpid(), signal.SIGUSR1)
 
 n = int(sys.argv[1]) if len(sys.argv) > 1 else 62
-p = float(sys.argv[2]) if len(sys.argv) > 2 else 57
+p = float(sys.argv[2]) if len(sys.argv) > 2 else 58
 
 n = 2**n
 p = 2**(-p)
